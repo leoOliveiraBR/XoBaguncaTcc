@@ -64,34 +64,29 @@
         }
 
         /* Ajuste dos ícones */
-        .profile {
-            margin-left: 20px; /* Ajustar a margem para mover para a esquerda */
-        }
-
-        .profile img {
-            width: 60px; /* Tamanho aumentado do ícone de perfil */
-            height: 60px;
-            cursor: pointer;
-        }
-
-        .stats img {
-            width: 70px; /* Tamanho aumentado do avatar */
-            height: 70px;
-            margin-right: 20px; /* Espaçamento entre avatar e barra de estatísticas */
-        }
-
-        /* Estatísticas */
         .stats {
             display: flex;
             align-items: center;
             margin-top: 20px;
+            justify-content: center; /* Centraliza horizontalmente os elementos dentro de .stats */
+        }
+
+        .stat-bars {
+            display: flex;
+            flex-direction: column;
         }
 
         .stat-bar {
             display: flex;
             align-items: center;
-            margin: 0 10px;
+            margin: 5px 0;
             position: relative;
+        }
+
+        .stats img#avatarImage {
+            width: 40px;
+            height: 40px;
+            margin-right: 20px;
         }
 
         .stat-bar span {
@@ -100,8 +95,8 @@
         }
 
         .bar {
-            width: 200px; /* Aumentando o tamanho da barra */
-            height: 25px; /* Aumentando a altura da barra */
+            width: 200px;
+            height: 25px;
             background-color: #ddd;
             border-radius: 10px;
             overflow: hidden;
@@ -147,7 +142,7 @@
         }
 
         .column h2 {
-            margin-bottom: 10px; /* Espaçamento abaixo do título */
+            margin-bottom: 10px;
         }
 
         .task-list, .rewards {
@@ -165,6 +160,7 @@
         .task-item button {
             padding: 5px 10px;
             font-size: 14px;
+            margin-left: 5px;
         }
 
         .task-popup {
@@ -205,19 +201,19 @@
             z-index: 1000;
         }
 
-        /* Botão Adicionar Tarefa */
         #addTaskBtn {
-            padding: 10px 20px;
+            padding: 5px 10px; /* Alterado o tamanho do botão */
+            height: 30px; /* Adicionada a altura */
             font-size: 16px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-left: 10px;
+            margin-top: 5px; /* Adicionado margem superior */
             transition: background-color 0.3s ease;
         }
-
         #addTaskBtn:hover {
             background-color: #0056b3;
         }
@@ -228,14 +224,13 @@
             align-items: center;
             width: 100%;
         }
-
     </style>
 </head>
 <body>
     <div class="main-screen">
         <div class="header">
             <div class="menu">
-                <button id="menuToggle">☰</button>
+                <button id="menuToggle" style="font-size: 24px;">☰</button>
                 <div class="menu-content" id="menuContent">
                     <a href="criarGP.html" id="createGroupOption">Criar Grupo</a>
                     <a href="entrarGP.html" id="joinGroupOption">Entrar em um Grupo</a>
@@ -243,16 +238,18 @@
             </div>
             <div class="stats">
                 <img src="img_principal/pia.jpg" alt="Avatar" id="avatarImage">
-                <div class="stat-bar">
-                    <span>Vida:</span>
-                    <div class="bar">
-                        <div id="lifeBar" class="bar-fill life" style="width: 100%;"></div>
+                <div class="stat-bars">
+                    <div class="stat-bar">
+                        <span>Vida:</span>
+                        <div class="bar">
+                            <div id="lifeBar" class="bar-fill life" style="width: 100%;"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="stat-bar">
-                    <span>XP:</span>
-                    <div class="bar">
-                        <div id="xpBar" class="bar-fill xp" style="width: 0%;"></div>
+                    <div class="stat-bar">
+                        <span>XP:</span>
+                        <div class="bar">
+                            <div id="xpBar" class="bar-fill xp" style="width: 0%;"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="coins">
@@ -261,16 +258,14 @@
                     <img src="img_principal/moeda.webp" alt="Moeda">
                 </div>
             </div>
-            <div class="profile">
-                <img src="img_principal/perfil.webp" alt="Perfil" id="profileToggle">
-                <div class="profile-content" id="profileContent">
-                    <a href="#" id="avatarOption">Avatar</a>
-                    <a href="#" id="settingsOption">Configurações</a>
-                    <a href="#" id="privacyOption">Privacidade</a>
-                </div>
+            <button id="addTaskBtn">Adicionar Tarefas</button>
+            <div class="profile-content" id="profileContent">
+                <a href="#" id="avatarOption">Avatar</a>
+                <a href="#" id="settingsOption">Configurações</a>
+                <a href="#" id="privacyOption">Privacidade</a>
             </div>
         </div>
-        <div style="display: flex; width: 100%; justify-content: space-around;">
+        <div style="display: flex; width: 100%; justify-content: space-around; margin-top: 70px;">
             <div class="column">
                 <h2>Afazeres</h2>
                 <div class="task-list" id="todoList">
@@ -284,146 +279,158 @@
                 </div>
             </div>
             <div class="column">
-                <div class="rewards-section">
-                    <button id="addTaskBtn">Adicionar Tarefa</button>
-                    <h2 class="recompensas">Recompensas</h2>
-                    <div class="rewards">
-                        <div class="reward-item">
-                            <img src="reward-icon.png" alt="Recompensa">
-                            <div class="details">
-                                <p>Recompensa de 50 pontos</p>
-                                <p>Descrição da recompensa aqui...</p>
-                            </div>
-                            <div class="actions">
-                                <button onclick="redeemReward(50)">Resgatar</button>
-                            </div>
-                        </div>
-                        <!-- Adicione mais recompensas conforme necessário -->
-                    </div>
+                <h2>Recompensas</h2>
+                <div class="rewards">
+                    <ul id="rewardList">
+                        <li data-cost="10">Recompensa 1 - 10 moedas <button onclick="redeemReward(this, 10)">Resgatar</button></li>
+                        <li data-cost="20">Recompensa 2 - 20 moedas <button onclick="redeemReward(this, 20)">Resgatar</button></li>
+                        <!-- Mais recompensas podem ser adicionadas aqui -->
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <!-- Popup de Tarefas e Overlay -->
-        <div class="task-popup" id="taskPopup">
-            <h2>Adicionar Tarefa</h2>
-            <input type="text" id="taskName" placeholder="Nome da Tarefa" required>
-            <select id="taskDifficulty">
-                <option value="easy">Fácil</option>
-                <option value="medium">Médio</option>
-                <option value="hard">Difícil</option>
-            </select>
-            <select id="taskType">
-                <option value="daily">Diárias</option>
-                <option value="todo">Afazeres</option>
-            </select>
-            <button id="saveTaskBtn">Salvar</button>
-            <button id="cancelTaskBtn">Cancelar</button>
-        </div>
-
-        <div class="overlay" id="overlay"></div>
     </div>
-
+    <div class="task-popup" id="taskPopup">
+        <h2>Adicionar Nova Tarefa</h2>
+        <input type="text" id="taskName" placeholder="Nome da Tarefa">
+        <select id="taskType">
+            <option value="todo">Afazer</option>
+            <option value="daily">Diária</option>
+        </select>
+        <select id="taskDifficulty"> <!-- Adicionado o menu de seleção de dificuldade -->
+            <option value="easy">Fácil</option>
+            <option value="medium">Médio</option>
+            <option value="hard">Difícil</option>
+        </select>
+        <button onclick="addTask()">Adicionar</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
     <script>
-        let life = 100;
-        let xp = 0;
-        let coins = 0;
-        let level = 1;
+        // Funções para manipulação de tarefas
+        function addTask() {
+            var taskName = document.getElementById("taskName").value;
+            var taskType = document.getElementById("taskType").value;
+            var taskDifficulty = document.getElementById("taskDifficulty").value; // Captura a dificuldade selecionada
 
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            let menuContent = document.getElementById('menuContent');
-            menuContent.style.display = menuContent.style.display === 'none' || menuContent.style.display === '' ? 'block' : 'none';
-        });
+            var taskList = taskType === "todo" ? document.getElementById("todoList") : document.getElementById("dailyList");
 
-        document.getElementById('profileToggle').addEventListener('click', () => {
-            let profileContent = document.getElementById('profileContent');
-            profileContent.style.display = profileContent.style.display === 'none' || profileContent.style.display === '' ? 'block' : 'none';
-        });
-
-        document.addEventListener('click', function(event) {
-            let menuContent = document.getElementById('menuContent');
-            let profileContent = document.getElementById('profileContent');
-            if (!document.getElementById('menuToggle').contains(event.target) && !menuContent.contains(event.target)) {
-                menuContent.style.display = 'none';
-            }
-            if (!document.getElementById('profileToggle').contains(event.target) && !profileContent.contains(event.target)) {
-                profileContent.style.display = 'none';
-            }
-        });
-
-        document.getElementById('addTaskBtn').addEventListener('click', () => {
-            document.getElementById('taskPopup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        });
-
-        document.getElementById('cancelTaskBtn').addEventListener('click', () => {
-            document.getElementById('taskPopup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        });
-
-        document.getElementById('saveTaskBtn').addEventListener('click', () => {
-            let taskName = document.getElementById('taskName').value;
-            let taskDifficulty = document.getElementById('taskDifficulty').value;
-            let taskType = document.getElementById('taskType').value;
-
-            if (taskName) {
-                addTask(taskName, taskDifficulty, taskType);
-                document.getElementById('taskPopup').style.display = 'none';
-                document.getElementById('overlay').style.display = 'none';
-                document.getElementById('taskName').value = '';
-                document.getElementById('taskDifficulty').value = 'easy';
-                document.getElementById('taskType').value = 'daily';
-            }
-        });
-
-        function addTask(name, difficulty, type) {
-            let taskList = type === 'daily' ? document.getElementById('dailyList') : document.getElementById('todoList');
-            let taskItem = document.createElement('div');
-            taskItem.className = 'task-item';
-
+            var taskItem = document.createElement("div");
+            taskItem.className = "task-item";
             taskItem.innerHTML = `
-                <span>${name} (${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)})</span>
+                <span>${taskName}</span>
                 <div>
-                    <button onclick="markTask('done', this, '${difficulty}')">Concluído</button>
-                    <button onclick="markTask('not_done', this)">Não Feito</button>
+                    <button onclick="completeTask(this, '${taskDifficulty}')">Concluir</button>
+                    <button onclick="deleteTask(this)">Excluir</button>
                 </div>
             `;
 
             taskList.appendChild(taskItem);
-        }
 
-        function markTask(status, element, difficulty) {
-            let lifeElement = document.getElementById('lifeBar');
-            let xpElement = document.getElementById('xpBar');
-            let coinsElement = document.getElementById('coins');
-
-            let taskPoints = difficulty === 'easy' ? 5 : difficulty === 'medium' ? 10 : 15;
-
-            if (status === 'done') {
-                xp += taskPoints;
-                coins += taskPoints;
-
-                if (xp >= 100) {
-                    level += 1;
-                    xp = 0;
-                }
-            } else {
-                life -= 10;
-                if (life < 0) life = 0;
+            // Calcula a quantidade de XP com base na dificuldade
+            var xpEarned = 0;
+            switch (taskDifficulty) {
+                case "easy":
+                    xpEarned = taskType === "todo" ? 5 : 4; // Afazeres: Fácil - 5 pontos, Diárias: Fácil - 4 pontos
+                    break;
+                case "medium":
+                    xpEarned = taskType === "todo" ? 10 : 8; // Afazeres: Médio - 10 pontos, Diárias: Médio - 8 pontos
+                    break;
+                case "hard":
+                    xpEarned = taskType === "todo" ? 15 : 12; // Afazeres: Difícil - 15 pontos, Diárias: Difícil - 12 pontos
+                    break;
             }
 
-            lifeElement.style.width = life + '%';
-            xpElement.style.width = xp + '%';
-            coinsElement.textContent = coins;
+            // Atualiza a barra de XP
+            var xpBar = document.getElementById("xpBar");
+            var currentXp = parseFloat(xpBar.style.width) || 0;
+            var newXP = Math.min(currentXp + xpEarned, 100);
+            xpBar.style.width = newXP + "%";
 
-            let taskItem = element.closest('.task-item');
+            // Reset form
+            document.getElementById("taskName").value = "";
+            document.getElementById("taskType").value = "todo";
+            document.getElementById("taskDifficulty").value = "easy";
+
+            // Hide popup
+            document.getElementById("taskPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function completeTask(button, difficulty) {
+            var taskItem = button.closest(".task-item");
+            taskItem.remove();
+
+            // Calcula a quantidade de XP com base na dificuldade
+            var xpEarned = 0;
+            switch (difficulty) {
+                case "easy":
+                    xpEarned = 4; // Fácil - 4 pontos
+                    break;
+                case "medium":
+                    xpEarned = 8; // Médio - 8 pontos
+                    break;
+                case "hard":
+                    xpEarned = 12; // Difícil - 12 pontos
+                    break;
+            }
+
+            // Atualiza a barra de XP
+            var xpBar = document.getElementById("xpBar");
+            var currentXp = parseFloat(xpBar.style.width) || 0;
+            var newXP = Math.min(currentXp + xpEarned, 100);
+            xpBar.style.width = newXP + "%";
+
+            // Atualiza as moedas
+            var coinsElement = document.getElementById("coins");
+            var currentCoins = parseInt(coinsElement.innerText) || 0;
+            var coinsEarned = xpEarned / 2; // Ganha metade dos pontos de XP em moedas
+            coinsElement.innerText = currentCoins + coinsEarned;
+        }
+
+        function deleteTask(button) {
+            var taskItem = button.closest(".task-item");
             taskItem.remove();
         }
 
-        function redeemReward(points) {
-            // Implementar lógica para resgatar recompensa com pontos específicos
-            alert(`Recompensa de ${points} pontos resgatada!`);
+        // Função para resgatar recompensas
+        function redeemReward(button, cost) {
+            var coinsElement = document.getElementById("coins");
+            var currentCoins = parseInt(coinsElement.innerText) || 0;
+
+            if (currentCoins >= cost) {
+                coinsElement.innerText = currentCoins - cost;
+                alert("Recompensa resgatada com sucesso!");
+            } else {
+                alert("Moedas insuficientes para resgatar esta recompensa.");
+            }
         }
+
+        // Funções para manipulação do menu
+        document.getElementById("menuToggle").addEventListener("click", function() {
+            var menuContent = document.getElementById("menuContent");
+            menuContent.style.display = menuContent.style.display === "block" ? "none" : "block";
+        });
+
+        // Funções para manipulação do popup de tarefas
+        document.getElementById("addTaskBtn").addEventListener("click", function() {
+            document.getElementById("taskPopup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        });
+
+        document.getElementById("overlay").addEventListener("click", function() {
+            document.getElementById("taskPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        });
+
+        // Função para reduzir vida
+        function reduceLife() {
+            var lifeBar = document.getElementById("lifeBar");
+            var currentLife = parseFloat(lifeBar.style.width) || 0;
+            lifeBar.style.width = Math.max(currentLife - 10, 0) + "%"; // Reduce life by 10%
+        }
+
+        // Exemplo de chamada da função reduceLife()
+        // reduceLife();
     </script>
 </body>
 </html>
