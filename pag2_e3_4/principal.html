@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,7 @@
         .header {
             width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             padding: 10px 20px;
             background-color: #f0f0f0;
             position: fixed;
@@ -40,11 +41,21 @@
             z-index: 1000;
         }
 
-        .menu, .profile {
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            width: 50%;
             position: relative;
         }
 
-        .menu-content, .profile-content {
+        .menu {
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+
+        .menu-content,
+        .profile-content {
             position: absolute;
             background-color: #fff;
             border: 1px solid #ddd;
@@ -52,14 +63,16 @@
             display: none;
         }
 
-        .menu-content a, .profile-content a {
+        .menu-content a,
+        .profile-content a {
             display: block;
             padding: 10px;
             text-decoration: none;
             color: #333;
         }
 
-        .menu-content a:hover, .profile-content a:hover {
+        .menu-content a:hover,
+        .profile-content a:hover {
             background-color: #f0f0f0;
         }
 
@@ -68,7 +81,6 @@
             display: flex;
             align-items: center;
             margin-top: 20px;
-            justify-content: center; /* Centraliza horizontalmente os elementos dentro de .stats */
         }
 
         .stat-bars {
@@ -145,7 +157,8 @@
             margin-bottom: 10px;
         }
 
-        .task-list, .rewards {
+        .task-list,
+        .rewards {
             width: 100%;
         }
 
@@ -175,7 +188,8 @@
             z-index: 1001;
         }
 
-        .task-popup input, .task-popup select {
+        .task-popup input,
+        .task-popup select {
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -201,9 +215,9 @@
             z-index: 1000;
         }
 
+        /* Botão Adicionar Tarefa */
         #addTaskBtn {
-            padding: 5px 10px; /* Alterado o tamanho do botão */
-            height: 30px; /* Adicionada a altura */
+            padding: 10px 20px;
             font-size: 16px;
             background-color: #007bff;
             color: #fff;
@@ -211,9 +225,9 @@
             border-radius: 5px;
             cursor: pointer;
             margin-left: 10px;
-            margin-top: 5px; /* Adicionado margem superior */
             transition: background-color 0.3s ease;
         }
+
         #addTaskBtn:hover {
             background-color: #0056b3;
         }
@@ -224,45 +238,57 @@
             align-items: center;
             width: 100%;
         }
+
+        /* Ajuste do botão do menu */
+        #menuToggle {
+            font-size: 24px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
     </style>
 </head>
+
 <body>
     <div class="main-screen">
         <div class="header">
-            <div class="menu">
-                <button id="menuToggle" style="font-size: 24px;">☰</button>
-                <div class="menu-content" id="menuContent">
-                    <a href="criarGP.html" id="createGroupOption">Criar Grupo</a>
-                    <a href="entrarGP.html" id="joinGroupOption">Entrar em um Grupo</a>
-                </div>
-            </div>
-            <div class="stats">
-                <img src="img_principal/pia.jpg" alt="Avatar" id="avatarImage">
-                <div class="stat-bars">
-                    <div class="stat-bar">
-                        <span>Vida:</span>
-                        <div class="bar">
-                            <div id="lifeBar" class="bar-fill life" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                    <div class="stat-bar">
-                        <span>XP:</span>
-                        <div class="bar">
-                            <div id="xpBar" class="bar-fill xp" style="width: 0%;"></div>
-                        </div>
+            <div class="header-content">
+                <div class="menu">
+                    <button id="menuToggle">☰</button>
+                    <div class="menu-content" id="menuContent">
+                        <a href="criarGP.html" id="createGroupOption">Criar Grupo</a>
+                        <a href="entrarGP.html" id="joinGroupOption">Entrar em um Grupo</a>
                     </div>
                 </div>
-                <div class="coins">
-                    <span>Moedas:</span>
-                    <span id="coins">0</span>
-                    <img src="img_principal/moeda.webp" alt="Moeda">
+                <div class="stats">
+                    <img src="img_principal/pia.jpg" alt="Avatar" id="avatarImage">
+                    <div class="stat-bars">
+                        <div class="stat-bar">
+                            <span>Vida:</span>
+                            <div class="bar">
+                                <div id="lifeBar" class="bar-fill life" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-bar">
+                            <span>XP:</span>
+                            <div class="bar">
+                                <div id="xpBar" class="bar-fill xp" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coins">
+                        <span>Moedas:</span>
+                        <span id="coins">0</span>
+                        <img src="img_principal/moeda.webp" alt="Moeda">
+                    </div>
+                    <button id="addTaskBtn">Adicionar Tarefas</button>
+                    <div class="profile-content" id="profileContent">
+                        <a href="#" id="avatarOption">Avatar</a>
+                        <a href="#" id="settingsOption">Configurações</a>
+                        <a href="#" id="privacyOption">Privacidade</a>
+                    </div>
                 </div>
-            </div>
-            <button id="addTaskBtn">Adicionar Tarefas</button>
-            <div class="profile-content" id="profileContent">
-                <a href="#" id="avatarOption">Avatar</a>
-                <a href="#" id="settingsOption">Configurações</a>
-                <a href="#" id="privacyOption">Privacidade</a>
             </div>
         </div>
         <div style="display: flex; width: 100%; justify-content: space-around; margin-top: 70px;">
@@ -282,109 +308,123 @@
                 <h2>Recompensas</h2>
                 <div class="rewards">
                     <ul id="rewardList">
-                        <li data-cost="10">Recompensa 1 - 10 moedas <button onclick="redeemReward(this, 10)">Resgatar</button></li>
-                        <li data-cost="20">Recompensa 2 - 20 moedas <button onclick="redeemReward(this, 20)">Resgatar</button></li>
-                        <!-- Mais recompensas podem ser adicionadas aqui -->
+                        <li data-cost="10">Recompensa 1 - 10 moedas <button
+                                onclick="redeemReward(this, 10)">Resgatar</button></li>
+                        <li data-cost="20">Recompensa 2 - 20 moedas <button
+                                onclick="redeemReward(this, 20)">Resgatar</button></li>
+                        <li data-cost="30">Recompensa 3 - 30 moedas <button
+                                onclick="redeemReward(this, 30)">Resgatar</button></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="task-popup" id="taskPopup">
-        <h2>Adicionar Nova Tarefa</h2>
+        <h2>Adicionar Tarefa</h2>
         <input type="text" id="taskName" placeholder="Nome da Tarefa">
         <select id="taskType">
             <option value="todo">Afazer</option>
             <option value="daily">Diária</option>
         </select>
-        <select id="taskDifficulty"> <!-- Adicionado o menu de seleção de dificuldade -->
+        <select id="taskDifficulty">
             <option value="easy">Fácil</option>
             <option value="medium">Médio</option>
             <option value="hard">Difícil</option>
         </select>
-        <button onclick="addTask()">Adicionar</button>
+        <button id="saveTaskBtn">Salvar</button>
     </div>
     <div class="overlay" id="overlay"></div>
+
     <script>
-        // Funções para manipulação de tarefas
-        function addTask() {
-            var taskName = document.getElementById("taskName").value;
-            var taskType = document.getElementById("taskType").value;
-            var taskDifficulty = document.getElementById("taskDifficulty").value; // Captura a dificuldade selecionada
+        document.addEventListener("DOMContentLoaded", function () {
+            var menuToggle = document.getElementById("menuToggle");
+            var menuContent = document.getElementById("menuContent");
 
-            var taskList = taskType === "todo" ? document.getElementById("todoList") : document.getElementById("dailyList");
+            menuToggle.addEventListener("click", function () {
+                if (menuContent.style.display === "block") {
+                    menuContent.style.display = "none";
+                } else {
+                    menuContent.style.display = "block";
+                }
+            });
 
-            var taskItem = document.createElement("div");
-            taskItem.className = "task-item";
-            taskItem.innerHTML = `
-                <span>${taskName}</span>
-                <div>
-                    <button onclick="completeTask(this, '${taskDifficulty}')">Concluir</button>
-                    <button onclick="deleteTask(this)">Excluir</button>
-                </div>
-            `;
+            document.addEventListener("click", function (event) {
+                if (!menuContent.contains(event.target) && event.target !== menuToggle) {
+                    menuContent.style.display = "none";
+                }
+            });
 
-            taskList.appendChild(taskItem);
+            var profileToggle = document.getElementById("avatarImage");
+            var profileContent = document.getElementById("profileContent");
 
-            // Calcula a quantidade de XP com base na dificuldade
-            var xpEarned = 0;
-            switch (taskDifficulty) {
-                case "easy":
-                    xpEarned = taskType === "todo" ? 5 : 4; // Afazeres: Fácil - 5 pontos, Diárias: Fácil - 4 pontos
-                    break;
-                case "medium":
-                    xpEarned = taskType === "todo" ? 10 : 8; // Afazeres: Médio - 10 pontos, Diárias: Médio - 8 pontos
-                    break;
-                case "hard":
-                    xpEarned = taskType === "todo" ? 15 : 12; // Afazeres: Difícil - 15 pontos, Diárias: Difícil - 12 pontos
-                    break;
-            }
+            profileToggle.addEventListener("click", function () {
+                if (profileContent.style.display === "block") {
+                    profileContent.style.display = "none";
+                } else {
+                    profileContent.style.display = "block";
+                }
+            });
 
-            // Atualiza a barra de XP
-            var xpBar = document.getElementById("xpBar");
-            var currentXp = parseFloat(xpBar.style.width) || 0;
-            var newXP = Math.min(currentXp + xpEarned, 100);
-            xpBar.style.width = newXP + "%";
+            document.addEventListener("click", function (event) {
+                if (!profileContent.contains(event.target) && event.target !== profileToggle) {
+                    profileContent.style.display = "none";
+                }
+            });
 
-            // Reset form
-            document.getElementById("taskName").value = "";
-            document.getElementById("taskType").value = "todo";
-            document.getElementById("taskDifficulty").value = "easy";
+            var addTaskBtn = document.getElementById("addTaskBtn");
+            var taskPopup = document.getElementById("taskPopup");
+            var overlay = document.getElementById("overlay");
 
-            // Hide popup
-            document.getElementById("taskPopup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
+            addTaskBtn.addEventListener("click", function () {
+                taskPopup.style.display = "block";
+                overlay.style.display = "block";
+            });
 
-        function completeTask(button, difficulty) {
+            overlay.addEventListener("click", function () {
+                taskPopup.style.display = "none";
+                overlay.style.display = "none";
+            });
+
+            document.getElementById("saveTaskBtn").addEventListener("click", function () {
+                var taskName = document.getElementById("taskName").value;
+                var taskType = document.getElementById("taskType").value;
+                var taskDifficulty = document.getElementById("taskDifficulty").value;
+
+                if (taskName !== "") {
+                    var taskList = taskType === "todo" ? document.getElementById("todoList") : document.getElementById("dailyList");
+
+                    var taskItem = document.createElement("div");
+                    taskItem.className = "task-item";
+                    taskItem.innerHTML = `<span>${taskName}</span><div><button onclick="completeTask(this, '${taskType}', '${taskDifficulty}')">Completar</button><button onclick="deleteTask(this)">Excluir</button></div>`;
+                    taskList.appendChild(taskItem);
+
+                    taskPopup.style.display = "none";
+                    overlay.style.display = "none";
+                } else {
+                    alert("Por favor, preencha o nome da tarefa.");
+                }
+            });
+        });
+
+        function completeTask(button, taskType, taskDifficulty) {
             var taskItem = button.closest(".task-item");
-            taskItem.remove();
+            var xpBar = document.getElementById("xpBar");
+            var xpWidth = parseInt(xpBar.style.width);
+            var points;
 
-            // Calcula a quantidade de XP com base na dificuldade
-            var xpEarned = 0;
-            switch (difficulty) {
-                case "easy":
-                    xpEarned = 4; // Fácil - 4 pontos
-                    break;
-                case "medium":
-                    xpEarned = 8; // Médio - 8 pontos
-                    break;
-                case "hard":
-                    xpEarned = 12; // Difícil - 12 pontos
-                    break;
+            if (taskType === "todo") {
+                points = taskDifficulty === "easy" ? 5 : taskDifficulty === "medium" ? 10 : 15;
+            } else {
+                points = taskDifficulty === "easy" ? 4 : taskDifficulty === "medium" ? 8 : 12;
             }
 
-            // Atualiza a barra de XP
-            var xpBar = document.getElementById("xpBar");
-            var currentXp = parseFloat(xpBar.style.width) || 0;
-            var newXP = Math.min(currentXp + xpEarned, 100);
-            xpBar.style.width = newXP + "%";
+            xpWidth += points;
 
-            // Atualiza as moedas
-            var coinsElement = document.getElementById("coins");
-            var currentCoins = parseInt(coinsElement.innerText) || 0;
-            var coinsEarned = xpEarned / 2; // Ganha metade dos pontos de XP em moedas
-            coinsElement.innerText = currentCoins + coinsEarned;
+            if (xpWidth > 100) xpWidth = 100;
+
+            xpBar.style.width = xpWidth + "%";
+            taskItem.remove();
         }
 
         function deleteTask(button) {
@@ -392,45 +432,19 @@
             taskItem.remove();
         }
 
-        // Função para resgatar recompensas
         function redeemReward(button, cost) {
             var coinsElement = document.getElementById("coins");
-            var currentCoins = parseInt(coinsElement.innerText) || 0;
+            var currentCoins = parseInt(coinsElement.textContent);
 
             if (currentCoins >= cost) {
-                coinsElement.innerText = currentCoins - cost;
-                alert("Recompensa resgatada com sucesso!");
+                currentCoins -= cost;
+                coinsElement.textContent = currentCoins;
+                alert("Recompensa resgatada!");
             } else {
                 alert("Moedas insuficientes para resgatar esta recompensa.");
             }
         }
-
-        // Funções para manipulação do menu
-        document.getElementById("menuToggle").addEventListener("click", function() {
-            var menuContent = document.getElementById("menuContent");
-            menuContent.style.display = menuContent.style.display === "block" ? "none" : "block";
-        });
-
-        // Funções para manipulação do popup de tarefas
-        document.getElementById("addTaskBtn").addEventListener("click", function() {
-            document.getElementById("taskPopup").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
-        });
-
-        document.getElementById("overlay").addEventListener("click", function() {
-            document.getElementById("taskPopup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        });
-
-        // Função para reduzir vida
-        function reduceLife() {
-            var lifeBar = document.getElementById("lifeBar");
-            var currentLife = parseFloat(lifeBar.style.width) || 0;
-            lifeBar.style.width = Math.max(currentLife - 10, 0) + "%"; // Reduce life by 10%
-        }
-
-        // Exemplo de chamada da função reduceLife()
-        // reduceLife();
     </script>
 </body>
+
 </html>
