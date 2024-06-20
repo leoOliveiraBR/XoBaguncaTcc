@@ -17,17 +17,17 @@
             font-family: Arial, sans-serif;
             background-color: #1d1b1b;
             color: #fff;
+            margin: 0;
         }
 
         /* Telas */
         .main-screen {
+            padding: 50px 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            padding: 50px 0;
-            min-height: 100vh;
         }
 
         /* Cabeçalho */
@@ -47,8 +47,9 @@
         .header-content {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             width: 100%;
+            flex-wrap: wrap; /* Permite que os elementos quebrem para baixo */
         }
 
         .menu {
@@ -63,6 +64,7 @@
             border: 1px solid #ddd;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: none;
+            z-index: 1500; /* Ajustado para que esteja acima do overlay */
         }
 
         .menu-content a,
@@ -87,6 +89,7 @@
         .stat-bars {
             display: flex;
             flex-direction: column;
+            margin-left: 20px;
         }
 
         .stat-bar {
@@ -122,15 +125,15 @@
             position: absolute;
             top: 0;
             left: 0;
-            background-color: yellow;
+            background-size: contain;
         }
 
         .bar-fill.life {
-            background: url('img_principal/corazon.webp') no-repeat left center / contain, red;
+            background-image: url('img_principal/corazon.webp'), linear-gradient(to right, red, yellow);
         }
 
         .bar-fill.xp {
-            background: url('img_principal/estrela.webp') no-repeat left center / contain, blue;
+            background-image: url('img_principal/estrela.webp'), linear-gradient(to right, blue, lightblue);
         }
 
         .coins {
@@ -203,7 +206,7 @@
         .task-popup input,
         .task-popup select {
             display: block;
-            width: 100%;
+            width: calc(100% - 20px); /* Melhora a largura para dispositivos móveis */
             margin: 10px 0;
             padding: 10px;
             font-size: 16px;
@@ -269,10 +272,12 @@
         @media (max-width: 768px) {
             .column {
                 width: 90%;
+                margin-bottom: 20px; /* Adiciona espaço entre as colunas */
             }
 
             .header-content {
                 flex-direction: column;
+                align-items: flex-start; /* Alinha os itens do cabeçalho à esquerda */
             }
 
             .menu {
@@ -280,8 +285,8 @@
             }
 
             .stats {
-                flex-direction: column;
-                align-items: flex-start;
+                margin-top: 10px; /* Adiciona espaço acima das estatísticas */
+                align-items: center;
             }
 
             .stat-bars {
@@ -290,6 +295,15 @@
 
             .coins {
                 margin-top: 10px;
+                margin-left: 0;
+            }
+
+            .bar {
+                width: 100%; /* Barras de progresso ocupam toda a largura disponível */
+            }
+
+            .bar-fill {
+                background-size: auto 100%; /* Ajusta o tamanho da imagem de fundo da barra */
             }
         }
 
@@ -332,7 +346,6 @@
         .reward-item button:hover {
             background-color: #FFDF7F; 
         }
-
     </style>
 </head>
 
@@ -377,7 +390,7 @@
                 </div>
             </div>
         </div>
-        <div style="display: flex; width: 100%; justify-content: space-around; margin-top: 70px;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-around; margin-top: 70px;">
             <div class="column">
                 <h2>Afazeres</h2>
                 <div class="task-list" id="todoList">
@@ -555,3 +568,4 @@
 </body>
 
 </html>
+
