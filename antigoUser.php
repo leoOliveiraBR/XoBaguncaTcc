@@ -132,7 +132,7 @@
             }
 
             if (isValid) {
-                window.location.href = 'pag2/explicacoes.html';
+                window.location.href = 'pag2/explicacoes.php';
             }
         }
     </script>

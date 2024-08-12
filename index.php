@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <?php
-include_once('conexao.php');
+include_once('pag2_e3_4/conexao.php');
 ?>
 <head>
     <meta charset="UTF-8">
@@ -134,6 +134,7 @@ include_once('conexao.php');
     </style>
 
 </head>
+
 <body>
     <div class="container">
         <div class="image-button-container">
@@ -162,39 +163,58 @@ include_once('conexao.php');
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('show-form-button').addEventListener('click', function () {
-            document.getElementById('form-container').classList.toggle('hidden');
-        });
+</body>
+<script>
+    document.getElementById('show-form-button').addEventListener('click', function () {
+    document.getElementById('form-container').classList.toggle('hidden');
+});
 
-        document.getElementById('register-button').addEventListener('click', function (event) {
-            event.preventDefault();
+document.getElementById('register-button').addEventListener('click', function (event) {
+    event.preventDefault();
 
-            var inputs = document.querySelectorAll('#register-form input');
-            var errorMessages = document.querySelectorAll('.error-message');
+    var inputs = document.querySelectorAll('#register-form input');
+    var errorMessages = document.querySelectorAll('.error-message');
 
-            var allValid = true;
+    var allValid = true;
 
-            function validateInput(input, errorMessage) {
-                if (input.value.trim() === '') {
-                    input.classList.add('error');
-                    errorMessage.style.display = 'block';
-                    allValid = false;
+    function validateInput(input, errorMessage) {
+        if (input.value.trim() === '') {
+            input.classList.add('error');
+            errorMessage.style.display = 'block';
+            allValid = false;
+        } else {
+            input.classList.remove('error');
+            errorMessage.style.display = 'none';
+        }
+    }
+
+    inputs.forEach(function (input) {
+        var errorMessage = document.getElementById(input.id + '-error');
+        validateInput(input, errorMessage);
+    });
+
+    if (allValid) {
+        // Verificar se o email já existe
+        var email = document.getElementById('email').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'check_email.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.responseText === 'exists') {
+                    var emailError = document.getElementById('email-error');
+                    emailError.textContent = 'O e-mail já está em uso. Por favor, use outro e-mail.';
+                    emailError.style.display = 'block';
+                    document.getElementById('email').classList.add('error');
                 } else {
-                    input.classList.remove('error');
-                    errorMessage.style.display = 'none';
+                    document.getElementById('register-form').submit();
                 }
             }
+        };
+        xhr.send('email=' + encodeURIComponent(email));
+    }
+});
 
-            inputs.forEach(function (input) {
-                var errorMessage = document.getElementById(input.id + '-error');
-                validateInput(input, errorMessage);
-            });
-
-            if (allValid) {
-                document.getElementById('register-form').submit();
-            }
-        });
-    </script>
+</script>
 </body>
 </html>
