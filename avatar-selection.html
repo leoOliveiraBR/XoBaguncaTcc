@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Avatar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .category-container,
+        .gender-container,
+        .avatar-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .category-container button,
+        .gender-container button,
+        .back-button,
+        .confirm-button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .category-container button:hover,
+        .gender-container button:hover,
+        .back-button:hover,
+        .confirm-button:hover {
+            background-color: #0056b3;
+        }
+
+        .avatar-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 800px;
+            margin-top: auto;
+            /* Move para a parte inferior */
+        }
+
+        .avatar-container .avatar-item {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .avatar-container img {
+            cursor: pointer;
+            width: 100px;
+            height: 100px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .avatar-container img:hover {
+            transform: scale(1.1);
+            border-color: #007BFF;
+        }
+
+        .avatar-name {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .avatar-details {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-details img {
+            width: 200px;
+            /* Aumenta o tamanho da imagem */
+            height: 200px;
+            margin-right: 30px;
+            /* Aumenta o espaço entre a imagem e a descrição */
+            border-radius: 10px;
+        }
+
+        # {
+            font-size: 18px;
+            max-width: 400px;
+            /* Aumenta a largura máxima da descrição */
+            text-align: right;
+            /* Alinha o texto à esquerda */
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .popup button {
+            margin: 10px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div class="category-container" id="categoryContainer">
+            <h1>Escolha uma Categoria</h1>
+            <button onclick="selectCategory('RPG')">RPG</button>
+            <button onclick="selectCategory('Trabalho')">Trabalho</button>
+            <button onclick="selectCategory('Esporte')">Esporte</button>
+            <button onclick="selectCategory('Fantasia')">Fantasia</button>
+        </div>
+
+        <div class="gender-container" id="genderContainer" style="display: none;">
+            <h1>Escolha o Gênero</h1>
+            <button onclick="selectGender('Masculino')">Masculino</button>
+            <button onclick="selectGender('Feminino')">Feminino</button>
+            <button class="back-button" onclick="goBackToCategory()">Voltar</button>
+        </div>
+
+        <!-- Área do avatar selecionado -->
+        <div class="avatar-details-container">
+            <div class="avatar-details" id="avatarDetails" style="display: none;">
+                <img id="selectedAvatarImage" src="" alt="Avatar Selecionado">
+                <div class="description" id="avatarDescription"></div>
+                <button class="confirm-button" onclick="confirmAvatar()">Confirmar Avatar</button>
+                <button class="back-button" onclick="goBackToGender()">Voltar</button>
+            </div>
+        </div>
+
+        <!-- Área de seleção de avatar -->
+        <div class="avatar-selection-container" id="avatarSelectionContainer">
+            <div class="avatar-container" id="avatarContainer" style="display: none;"></div>
+        </div>
+
+    </div>
+
+    <div class="popup" id="confirmationPopup">
+        <p>Tem certeza que deseja confirmar este avatar?</p>
+        <button onclick="finalizeSelection()">Sim</button>
+        <button onclick="closePopup()">Não</button>
+    </div>
+    <div class="overlay" id="popupOverlay" onclick="closePopup()"></div>
+    <script>
+        const avatars = [
+            { id: 1, name: 'Cavaleiro', description: 'Um corajoso cavaleiro pronto para a batalha.', category: 'RPG', gender: 'Masculino', image_path: 'img/cavaleiro.png' },
+            { id: 2, name: 'Maga', description: 'Uma poderosa maga que controla os elementos.', category: 'RPG', gender: 'Feminino', image_path: 'img/maga.png' },
+            { id: 5, name: 'Motoboy', description: 'Um motoboy ágil que entrega com rapidez.', category: 'Trabalho', gender: 'Masculino', image_path: 'img/motoboy.png' },
+            { id: 6, name: 'Motogirl', description: 'Uma motogirl rápida e eficiente.', category: 'Trabalho', gender: 'Feminino', image_path: 'img/motogirl.png' },
+            { id: 7, name: 'Empresário', description: 'Um empresário de sucesso, sempre focado nos negócios.', category: 'Trabalho', gender: 'Masculino', image_path: 'img/empresario.png' },
+            { id: 8, name: 'Empresária', description: 'Uma empresária influente e poderosa.', category: 'Trabalho', gender: 'Feminino', image_path: 'img/empresaria.png' },
+            { id: 9, name: 'cavaleira', description: 'Uma guerreira feroz com habilidades de combate excepcionais.', category: 'RPG', gender: 'Feminino', image_path: 'img/cavaleira.png' }
+        ];
+
+        let selectedCategory = '';
+        let selectedGender = '';
+        let selectedAvatar = null;
+
+        function selectCategory(category) {
+            selectedCategory = category;
+            selectedAvatar = null;
+            document.getElementById('categoryContainer').style.display = 'none';
+            document.getElementById('genderContainer').style.display = 'block';
+        }
+
+        function selectGender(gender) {
+
+            selectedGender = gender;
+            selectedAvatar = null;
+            document.getElementById('genderContainer').style.display = 'none';
+            loadAvatars();
+        }
+
+        function loadAvatars() {
+            const filteredAvatars = avatars.filter(avatar => avatar.category === selectedCategory && avatar.gender === selectedGender);
+            const avatarContainer = document.getElementById('avatarContainer');
+
+            if (filteredAvatars.length === 0) {
+                avatarContainer.innerHTML = 'Nenhum avatar encontrado para a combinação selecionada.';
+                return;
+            }
+
+            avatarContainer.innerHTML = ''; // Limpa o conteúdo anterior
+            filteredAvatars.forEach(avatar => {
+                const avatarItem = document.createElement('div');
+                avatarItem.classList.add('avatar-item');
+
+                const img = document.createElement('img');
+                img.src = avatar.image_path;
+                img.alt = avatar.name;
+                img.onclick = () => selectAvatar(avatar);
+
+                const name = document.createElement('div');
+                name.classList.add('avatar-name');
+                name.textContent = avatar.name;
+
+                avatarItem.appendChild(img);
+                avatarItem.appendChild(name);
+                avatarContainer.appendChild(avatarItem);
+            });
+
+            document.getElementById('avatarContainer').style.display = 'flex';
+            document.getElementById('avatarDetails').style.display = 'block';
+        }
+
+        function selectAvatar(avatar) {
+            selectedAvatar = avatar;
+            document.getElementById('selectedAvatarImage').src = avatar.image_path;
+            document.getElementById('avatarDescription').textContent = avatar.description;
+        }
+
+        function confirmAvatar() {
+            if (selectedAvatar) {
+                document.getElementById('confirmationPopup').style.display = 'block';
+                document.getElementById('popupOverlay').style.display = 'block';
+            }
+        }
+
+        function finalizeSelection() {
+            alert('Avatar confirmado: ' + selectedAvatar.name);
+            closePopup();
+        }
+
+        function closePopup() {
+            document.getElementById('confirmationPopup').style.display = 'none';
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+
+        function goBackToCategory() {
+            selectedAvatar = null;
+            document.getElementById('genderContainer').style.display = 'none';
+            document.getElementById('categoryContainer').style.display = 'block';
+        }
+
+        function goBackToGender() {
+            selectedAvatar = null;
+            document.getElementById('avatarContainer').style.display = 'none';
+            document.getElementById('avatarDetails').style.display = 'none';
+            document.getElementById('genderContainer').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

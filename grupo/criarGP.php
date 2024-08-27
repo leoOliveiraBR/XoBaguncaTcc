@@ -12,7 +12,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-image: url(img_principal/tela.png);
         }
         .container {
             width: 100%;
@@ -96,11 +96,13 @@
             margin-top: 20px;
             cursor: pointer;
             color: #007BFF;
-        }
+        } 
     </style>
  </style>
 </head>
 <body>
+    
+
     <div class="container">
         <h2>Criar Grupo</h2>
         <form action="salvar_grupo.php" method="POST" enctype="multipart/form-data">
@@ -113,13 +115,16 @@
                 <textarea id="group-description" name="descricao_grupo" rows="3" placeholder="Digite a descrição do grupo"></textarea>
             </div>
             <div class="form-group">
-                <label for="user-email">Adicionar Usuário</label>
-                <input type="email" id="user-email" placeholder="Email do usuário" onblur="buscarUsuario(this.value)">
-                <select id="user-role">
-                    <option value="user">Usuário Comum</option>
-                    <option value="admin">Administrador</option>
-                </select>
-            </div>
+    <label for="user-email">Adicionar Usuário</label>
+    <input type="email" id="user-email" placeholder="Email do usuário" list="email-suggestions" oninput="sugerirUsuarios(this.value)">
+    <datalist id="email-suggestions"></datalist>
+    <select id="user-role">
+        <option value="user">Usuário Comum</option>
+        <option value="admin">Administrador</option>
+    </select>
+    <small id="email-error" style="color:red; display:none;">Email não encontrado!</small>
+</div>
+
             <div class="form-group">
                 <button type="button" onclick="addUser()">Adicionar Usuário</button>
             </div>
@@ -129,11 +134,36 @@
             <div class="form-group">
                 <button type="submit">Finalizar Criação do Grupo</button>
             </div>
-            <a class="toggle-link" href="entrarGP.html">Entrar em Grupo</a>
+            <a class="toggle-link" href="entrarGP.php">Entrar em Grupo</a>
         </form>
     </div>
 
     <script>
+        function sugerirUsuarios(query) {
+    if(query.length > 2) { // Buscar após digitar 3 caracteres
+        fetch(`sugerir_usuarios.php?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const datalist = document.getElementById('email-suggestions');
+            const emailError = document.getElementById('email-error');
+            datalist.innerHTML = ''; // Limpar sugestões anteriores
+            
+            if (data.length > 0) {
+                emailError.style.display = 'none'; // Esconder erro se houver sugestões
+                
+                data.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.email;
+                    datalist.appendChild(option);
+                });
+            } else {
+                emailError.style.display = 'block'; // Mostrar erro se não houver sugestões
+            }
+        })
+        .catch(error => console.error('Erro ao buscar sugestões:', error));
+    }
+}
+
         function previewPhoto() {
             const photoInput = document.getElementById('group-photo');
             const file = photoInput.files[0];

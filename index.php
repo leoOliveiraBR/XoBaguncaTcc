@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <?php
-include_once('pag2_e3_4/conexao.php');
+include_once('controller/conexao.php');
 ?>
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@ include_once('pag2_e3_4/conexao.php');
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('img/fundo.png');
+            background-image: url('img-telas/fundo.png');
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -30,8 +30,6 @@ include_once('pag2_e3_4/conexao.php');
             align-items: center;
             width: 100%;
             max-width: 400px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             padding: 20px;
             text-align: center;
@@ -130,6 +128,8 @@ include_once('pag2_e3_4/conexao.php');
         #show-form-button {
             display: block;
             margin: 10px auto;
+            top: -90px;
+            position: relative;
         }
     </style>
 
@@ -138,7 +138,7 @@ include_once('pag2_e3_4/conexao.php');
 <body>
     <div class="container">
         <div class="image-button-container">
-            <img src="img/seila.png" alt="Imagem" class="entrar-img">
+            <img src="img/magica.png" alt="Imagem" class="entrar-img">
             <button id="show-form-button">entrar</button>
         </div>
         <div class="form-container hidden" id="form-container">
@@ -197,7 +197,7 @@ document.getElementById('register-button').addEventListener('click', function (e
         // Verificar se o email já existe
         var email = document.getElementById('email').value;
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'check_email.php', true);
+        xhr.open('POST', 'controller/check_email.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {

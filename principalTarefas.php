@@ -343,8 +343,8 @@
                 <div class="menu">
                     <button id="menuToggle">☰</button>
                     <div class="menu-content" id="menuContent">
-                        <a href="criarGP.html" id="createGroupOption">Criar Grupo</a>
-                        <a href="entrarGP.html" id="joinGroupOption">Entrar em um Grupo</a>
+                        <a href="criarGP.php" id="createGroupOption">Criar Grupo</a>
+                        <a href="entrarGP.php" id="joinGroupOption">Entrar em um Grupo</a>
                     </div>
                 </div>
                 <div class="stats">
@@ -371,7 +371,7 @@
                     <button id="addTaskBtn">Adicionar Tarefas</button>
                     <div class="profile-content" id="profileContent">
                         <a href="#" id="avatarOption">Avatar</a>
-                        <a href="#" id="settingsOption">Configurações</a>
+                        <a href="perfil.php" id="settingsOption">Configurações</a>
                         <a href="#" id="privacyOption">Privacidade</a>
                     </div>
                 </div>

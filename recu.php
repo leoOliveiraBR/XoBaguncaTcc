@@ -1,18 +1,40 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $to = $email;
-        $subject = "Recuperação de Senha";
-        $message = "Clique no link abaixo para redefinir sua senha:\n\n";
-        $message .= "http://seusite.com/reset-password?email=" . urlencode($email);
-        $headers = "From: no-reply@seusite.com";
+    $birthdate = $_POST['birthdate']; // Data de nascimento enviada pelo usuário
 
-        if (mail($to, $subject, $message, $headers)) {
-            echo "E-mail de recuperação de senha enviado.";
-        } else {
-            echo "Falha ao enviar o e-mail.";
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Conecte ao banco de dados
+        $conn = new mysqli("seu_host", "seu_usuario", "sua_senha", "seu_banco_de_dados");
+
+        // Verifique se a conexão foi bem-sucedida
+        if ($conn->connect_error) {
+            die("Falha na conexão: " . $conn->connect_error);
         }
+
+        // Consulte a data de nascimento associada ao e-mail
+        $stmt = $conn->prepare("SELECT birthdate FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($stored_birthdate);
+            $stmt->fetch();
+
+            // Verifique se a data de nascimento coincide
+            if ($birthdate == $stored_birthdate) {
+                echo "Data de nascimento verificada com sucesso. Você pode redefinir sua senha.";
+                // Aqui você pode redirecionar o usuário para uma página de redefinição de senha
+            } else {
+                echo "A data de nascimento não coincide.";
+            }
+        } else {
+            echo "E-mail não encontrado.";
+        }
+
+        $stmt->close();
+        $conn->close();
     } else {
         echo "E-mail inválido.";
     }
@@ -112,13 +134,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="form-container">
             <img src="img/recuperar-senha.png" alt="Imagem do Título">
-            <form id="recover-form" action="" method="POST">
-                <input type="email" id="email" name="email" placeholder="E-mail:" required>
-                <span class="error-message" id="email-error">Por favor, insira um e-mail válido.</span>
-                <button type="submit">Enviar</button>
-            </form>
+    <form id="recover-form" action="" method="POST">
+    <input type="email" id="email" name="email" placeholder="E-mail:" required>
+    <span class="error-message" id="email-error">Por favor, insira um e-mail válido.</span>
+    
+    <h3>para continuar por favor insira sua data de nascimento cadastrada</h3>
+    <input type="date" id="birthdate" name="birthdate" placeholder="Data de Nascimento:" required>
+    <span class="error-message" id="birthdate-error">Por favor, insira a data de nascimento correta.</span>
+    
+    <button type="submit">Verificar</button>
+</form>
         </div>
-    </div>
+        </div>
+
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('recover-form');

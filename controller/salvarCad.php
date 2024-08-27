@@ -14,7 +14,7 @@
         $stmt->bind_param("issss",$tipo_usuario_idtipo_usuario, $nome, $email, $senha, $data_nasc);
 
         if ($stmt->execute()) {
-            header('Location: pag2_e3_4/explicacoes.html');
+            header('Location: explicacoes.php');
             exit();
         } else {
             echo "Erro: " . $sql . "<br>" . $mysqli->error;

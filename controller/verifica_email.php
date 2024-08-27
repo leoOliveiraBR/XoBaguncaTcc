@@ -1,5 +1,5 @@
 <?php
-include 'conexao.php';
+include 'pag2_e3_4/conexao.php';
 
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -15,7 +15,7 @@ if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     // Verifica a senha
     if (password_verify($password, $user['senha_usuario'])) {
-        header('Location: pag2_e3_4/explicacoes.html');
+        header('Location: pag2_e3_4/explicacoes.php');
         exit();
     } else {
         echo "Senha incorreta.";
